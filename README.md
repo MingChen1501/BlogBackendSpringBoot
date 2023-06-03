@@ -12,6 +12,8 @@ Then, you can run the application using the following command:
 mvn spring-boot:run
 ```
 
+The application will run on the default port 8080.
+
 # Contributing
 
 If you want to contribute to this project, please create a pull request on GitHub.
