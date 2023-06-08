@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mingchencodelab.blogbackendspringboot.model.enumeration.Role;
-import org.mingchencodelab.blogbackendspringboot.util.RoleConverter;
 
 import java.sql.Timestamp;
 
