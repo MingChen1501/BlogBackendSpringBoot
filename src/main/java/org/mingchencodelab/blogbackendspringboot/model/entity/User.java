@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mingchencodelab.blogbackendspringboot.model.enumeration.Role;
+import org.mingchencodelab.blogbackendspringboot.util.RoleConverter;
 
 import java.sql.Timestamp;
 
@@ -33,7 +34,7 @@ public class User {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role = Role.READER;
+    private Role role;
 
     @Column(name = "full_name")
     private String fullName;
