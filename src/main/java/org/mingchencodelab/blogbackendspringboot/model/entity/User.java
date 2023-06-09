@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.mingchencodelab.blogbackendspringboot.model.enumeration.Role;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,26 +25,38 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username",
+            nullable = false)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password",
+            nullable = false)
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email",
+            nullable = false)
     private String email;
 
-    @Column(name = "role")
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false,
+            columnDefinition = "ENUM('AUTHOR', 'READER')")
     private Role role;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name",
+            nullable = false)
     private String fullName;
 
-    @Column(name = "created_at")
-    private Timestamp CreatedAt;
+    @Column(name = "created_at",
+            nullable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+            updatable = false)
+    @CreationTimestamp
+    private Timestamp createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at",
+            nullable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @UpdateTimestamp
     private Timestamp updatedAt;
 
 }

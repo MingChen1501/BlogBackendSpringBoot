@@ -1,7 +1,6 @@
 package org.mingchencodelab.blogbackendspringboot.controller;
 
 import org.mingchencodelab.blogbackendspringboot.model.entity.User;
-import org.mingchencodelab.blogbackendspringboot.repository.UserRepository;
 import org.mingchencodelab.blogbackendspringboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
-    private Object Sort;
 
     /**
      * @param userService the user service
@@ -31,6 +29,7 @@ public class UserController {
      * @return ResponseEntity<List<User>> all users
      */
 
+
     @GetMapping
     public ResponseEntity<Page<User>> getUsers(@PageableDefault(
             size = 20,
@@ -40,6 +39,7 @@ public class UserController {
         Page<User> users = userService.getAllUsers(pageable);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         //get user by id from service
