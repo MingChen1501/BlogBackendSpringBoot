@@ -10,7 +10,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.mingchencodelab.blogbackendspringboot.model.enumeration.Role;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
