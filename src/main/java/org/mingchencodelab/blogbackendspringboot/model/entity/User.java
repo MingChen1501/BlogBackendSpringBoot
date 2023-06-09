@@ -1,6 +1,7 @@
 package org.mingchencodelab.blogbackendspringboot.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class User {
 
     @Column(name = "email",
             nullable = false)
+    @Email(message = "Email is not valid")
     private String email;
 
     @Enumerated(EnumType.STRING)
