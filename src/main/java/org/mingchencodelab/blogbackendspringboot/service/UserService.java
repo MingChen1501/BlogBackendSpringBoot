@@ -1,5 +1,6 @@
 package org.mingchencodelab.blogbackendspringboot.service;
 
+import org.mingchencodelab.blogbackendspringboot.model.dto.UserDto;
 import org.mingchencodelab.blogbackendspringboot.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +14,12 @@ public interface UserService {
     //method to get user by id
     Optional<User> getUserById(Long id);
 
+    /**
+     * @param user the user to create
+     * @return Optional<User>
+     */
     //method to create user
-    Optional<User> createUser(User user);
+    Optional<UserDto> createUser(UserDto user) throws Exception;
 
     //method to update user by id
     Optional<User> updateUser(Long id, User user);

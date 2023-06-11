@@ -1,5 +1,6 @@
 package org.mingchencodelab.blogbackendspringboot.service.impl;
 
+import org.mingchencodelab.blogbackendspringboot.model.dto.UserDto;
 import org.mingchencodelab.blogbackendspringboot.model.entity.User;
 import org.mingchencodelab.blogbackendspringboot.repository.UserRepository;
 import org.mingchencodelab.blogbackendspringboot.service.UserService;
@@ -46,9 +47,15 @@ public class UserServiceImpl implements UserService {
      * @return Optional<User>
      */
     @Override
-    public Optional<User> createUser(User user) {
+    public Optional<UserDto> createUser(UserDto user) throws Exception {
+        //convert userDto to user
+        User userToCreate = UserDto.fromUserDtoToUser(user);
         //create user from repository with user param
-        return Optional.of(userRepository.save(user));
+        User userCreated = userRepository.save(userToCreate);
+        //convert user to userDto
+        UserDto userDtoCreated = UserDto.fromUserToUserDto(userCreated);
+        //return userDto
+        return Optional.of(userDtoCreated);
     }
 
     /**
