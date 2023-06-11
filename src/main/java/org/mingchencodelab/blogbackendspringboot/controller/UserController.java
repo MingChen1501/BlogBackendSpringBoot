@@ -85,7 +85,7 @@ public class UserController {
                 .username(userRequest.getUsername())
                 .password(userRequest.getPassword())
                 .email(userRequest.getEmail())
-                .role(Role.READER)
+                .role(Role.valueOf(userRequest.getRole()))
                 .fullName(userRequest.getFullName())
                 .build();
         //create uriBuilders.path for user id
