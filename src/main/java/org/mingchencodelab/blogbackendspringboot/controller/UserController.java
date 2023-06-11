@@ -29,8 +29,6 @@ public class UserController {
     /**
      * @return ResponseEntity<List<User>> all users
      */
-
-
     @GetMapping
     public ResponseEntity<Page<User>> getUsers(@PageableDefault(
             size = 20,
@@ -41,11 +39,28 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    /**
+     * @param id the user id
+     * @return ResponseEntity<User> the user with the id
+     */
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         //get user by id from service
         return userService.getUserById(id).map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
+        //delete user by id from service
+        try {
+            if (userService.deleteUserById(id)) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

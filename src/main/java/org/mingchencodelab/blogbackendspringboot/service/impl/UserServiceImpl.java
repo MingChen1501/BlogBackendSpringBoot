@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,11 +72,15 @@ public class UserServiceImpl implements UserService {
 
     /**
      * @param id the id of the user to delete
+     * @return boolean if the user is deleted
      */
     @Override
-    public void deleteUser(Long id) {
-        //delete user from repository with id
-        userRepository.deleteById(id);
+    public boolean deleteUserById(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     /**

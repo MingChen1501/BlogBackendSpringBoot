@@ -1,5 +1,6 @@
 package org.mingchencodelab.blogbackendspringboot.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.mingchencodelab.blogbackendspringboot.model.enumeration.Role;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Getter
@@ -18,7 +20,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -31,6 +33,7 @@ public class User {
 
     @Column(name = "password",
             nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "email",

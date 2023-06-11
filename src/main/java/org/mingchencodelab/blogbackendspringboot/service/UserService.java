@@ -4,7 +4,6 @@ import org.mingchencodelab.blogbackendspringboot.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -20,8 +19,12 @@ public interface UserService {
     //method to update user by id
     Optional<User> updateUser(Long id, User user);
 
+    /**
+     * @param id the id of the user to delete
+     * @return boolean if the user is deleted
+     */
     //method to delete user by id
-    void deleteUser(Long id);
+    boolean deleteUserById(Long id);
 
     //method to get user by username
     Optional<User> getUserByUsername(String username);
