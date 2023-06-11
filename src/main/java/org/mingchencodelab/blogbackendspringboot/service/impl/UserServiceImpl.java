@@ -48,6 +48,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<UserDto> createUser(UserDto user) throws Exception {
+        //check if username(unique) exists
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new Exception("Username already exists");
+        }
         //convert userDto to user
         User userToCreate = UserDto.fromUserDtoToUser(user);
         //create user from repository with user param
