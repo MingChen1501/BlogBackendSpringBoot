@@ -1,5 +1,6 @@
 package org.mingchencodelab.blogbackendspringboot.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class Post {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -38,6 +40,7 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @JsonUnwrapped
     private Set<Category> categories = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -46,6 +49,7 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @JsonUnwrapped
     private Set<Tag> tags = new HashSet<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -54,5 +58,8 @@ public class Post {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
 
-    // Constructors, getters, and setters
+    @Column(name = "deleted_at",
+            columnDefinition = "TIMESTAMP DEFAULT NULL")
+    private Timestamp deletedAt;
+
 }
