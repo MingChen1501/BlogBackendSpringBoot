@@ -1,5 +1,6 @@
 package org.mingchencodelab.blogbackendspringboot.service.impl;
 
+import org.mingchencodelab.blogbackendspringboot.model.dto.UserDto;
 import org.mingchencodelab.blogbackendspringboot.model.entity.User;
 import org.mingchencodelab.blogbackendspringboot.repository.UserRepository;
 import org.mingchencodelab.blogbackendspringboot.service.UserService;
@@ -8,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
@@ -47,37 +47,49 @@ public class UserServiceImpl implements UserService {
      * @return Optional<User>
      */
     @Override
-    public Optional<User> createUser(User user) {
+    public Optional<UserDto> createUser(UserDto user) throws Exception {
+        //check if username(unique) exists
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new Exception("Username already exists");
+        }
+        //convert userDto to user
+        User userToCreate = UserDto.fromUserDtoToUser(user);
         //create user from repository with user param
-        return Optional.of(userRepository.save(user));
+        User userCreated = userRepository.save(userToCreate);
+        //convert user to userDto
+        UserDto userDtoCreated = UserDto.fromUserToUserDto(userCreated);
+        //return userDto
+        return Optional.of(userDtoCreated);
     }
 
     /**
-     * @param id the id of the user to update
+     * @param id   the id of the user to update
      * @param user the user to update
      * @return Optional<User>
      */
     @Override
-    public Optional<User> updateUser(Long id, User user) {
+    public Optional<UserDto> updateUser(Long id, UserDto user) throws Exception{
         //update user from repository with id and user
         return userRepository.findById(id).map(userUpdate -> {
             userUpdate.setUsername(user.getUsername());
-            userUpdate.setPassword(user.getPassword());
             userUpdate.setEmail(user.getEmail());
-            userUpdate.setRole(user.getRole());
             userUpdate.setFullName(user.getFullName());
-            return userRepository.save(userUpdate);
+            return Optional.of(userRepository.save(userUpdate)).map(UserDto::fromUserToUserDto).orElse(null);
         });
     }
 
 
     /**
      * @param id the id of the user to delete
+     * @return boolean if the user is deleted
      */
     @Override
-    public void deleteUser(Long id) {
-        //delete user from repository with id
-        userRepository.deleteById(id);
+    public boolean deleteUserById(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     /**

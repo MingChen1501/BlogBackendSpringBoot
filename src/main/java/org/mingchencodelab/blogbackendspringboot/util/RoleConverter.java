@@ -4,6 +4,7 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.mingchencodelab.blogbackendspringboot.model.enumeration.Role;
 
+@Deprecated
 @Converter(autoApply = true)
 public class RoleConverter implements AttributeConverter<Role, String> {
     @Override

@@ -12,5 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //find user by username and return Optional<User>
     @RestResource(path = "findByUsername", rel = "findByUsername")
     Optional<User> findByUsername(@Param("username") String username);
+    boolean existsByUsername(String username);
 
 }
