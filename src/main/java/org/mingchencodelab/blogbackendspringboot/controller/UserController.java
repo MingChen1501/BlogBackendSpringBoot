@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,8 +23,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/v1/users")
+@Controller
+@RequestMapping("api/v1/users")
 public class UserController {
     private final UserService userService;
 
@@ -101,6 +103,29 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.CREATED).header("Location", userUri).build();
             } else {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody CreateUserRequest userRequest) {
+        //mapping userRequest to userDto
+        UserDto userDto = UserDto.builder()
+                .username(userRequest.getUsername())
+                .password(userRequest.getPassword())
+                .email(userRequest.getEmail())
+                .role(Role.valueOf(userRequest.getRole()))
+                .fullName(userRequest.getFullName())
+                .build();
+        //update user by id from service
+        try {
+            Optional<UserDto> userDtoUpdated = userService.updateUser(id, userDto);
+            if (userDtoUpdated.isPresent()) {
+                //return with userDtoUpdated
+                return new ResponseEntity<>(userDtoUpdated.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

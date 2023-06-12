@@ -37,5 +37,7 @@ public class Comment {
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
 
-    // Constructors, getters, and setters
+    @Column(name = "deleted_at",
+            columnDefinition = "TIMESTAMP DEFAULT NULL")
+    private Timestamp deletedAt;
 }

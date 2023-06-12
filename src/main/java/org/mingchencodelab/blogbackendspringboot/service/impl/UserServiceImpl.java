@@ -63,20 +63,18 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param id the id of the user to update
+     * @param id   the id of the user to update
      * @param user the user to update
      * @return Optional<User>
      */
     @Override
-    public Optional<User> updateUser(Long id, User user) {
+    public Optional<UserDto> updateUser(Long id, UserDto user) throws Exception{
         //update user from repository with id and user
         return userRepository.findById(id).map(userUpdate -> {
             userUpdate.setUsername(user.getUsername());
-            userUpdate.setPassword(user.getPassword());
             userUpdate.setEmail(user.getEmail());
-            userUpdate.setRole(user.getRole());
             userUpdate.setFullName(user.getFullName());
-            return userRepository.save(userUpdate);
+            return Optional.of(userRepository.save(userUpdate)).map(UserDto::fromUserToUserDto).orElse(null);
         });
     }
 

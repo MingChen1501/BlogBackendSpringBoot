@@ -22,7 +22,7 @@ public interface UserService {
     Optional<UserDto> createUser(UserDto user) throws Exception;
 
     //method to update user by id
-    Optional<User> updateUser(Long id, User user);
+    Optional<UserDto> updateUser(Long id, UserDto user) throws Exception;
 
     /**
      * @param id the id of the user to delete

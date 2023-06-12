@@ -61,4 +61,7 @@ public class User implements Serializable {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
+    @Column(name = "deleted_at",
+            columnDefinition = "TIMESTAMP DEFAULT NULL")
+    private Timestamp deletedAt;
 }
