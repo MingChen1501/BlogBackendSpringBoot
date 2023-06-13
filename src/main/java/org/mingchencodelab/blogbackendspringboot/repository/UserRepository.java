@@ -1,5 +1,6 @@
 package org.mingchencodelab.blogbackendspringboot.repository;
 
+import jakarta.validation.constraints.NotNull;
 import org.mingchencodelab.blogbackendspringboot.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,5 +14,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @RestResource(path = "findByUsername", rel = "findByUsername")
     Optional<User> findByUsername(@Param("username") String username);
     boolean existsByUsername(String username);
+
+    //find user by id and return Optional<User>
+    @RestResource(path = "findById", rel = "findById")
+    @NotNull
+    Optional<User> findById(@Param("id") @NotNull Long id);
+
 
 }
