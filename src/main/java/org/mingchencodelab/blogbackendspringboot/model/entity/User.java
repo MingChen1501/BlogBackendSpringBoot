@@ -10,6 +10,8 @@ import org.mingchencodelab.blogbackendspringboot.model.enumeration.Role;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -47,6 +49,10 @@ public class User implements Serializable {
     @Column(name = "full_name",
             nullable = false)
     private String fullName;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Post> posts = new ArrayList<>();
 
     @Column(name = "created_at",
             nullable = false,
